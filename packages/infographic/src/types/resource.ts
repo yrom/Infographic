@@ -1,4 +1,4 @@
-export type ImageAsset =
+export type ImageResource =
   | string
   | {
       resource: string;
