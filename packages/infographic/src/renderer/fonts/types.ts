@@ -11,7 +11,7 @@ export type FontWeightName =
   | 'extrablack';
 
 export interface Font {
-  font: string;
+  fontFamily: string;
   name: string;
   baseUrl: string;
   fontWeight: {

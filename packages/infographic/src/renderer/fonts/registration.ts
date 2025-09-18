@@ -16,7 +16,7 @@ export function getFonts() {
 }
 
 export function setDefaultFont(font: string) {
-  DEFAULT_FONT = font;
+  DEFAULT_FONT = encodeFontFamily(font);
 }
 
 /**
@@ -38,8 +38,8 @@ export function setDefaultFont(font: string) {
  */
 export function registerFont(font: Font): Font {
   const f = { ...font };
-  FONT_REGISTRY.set(f.font, f);
-  f.font = encodeFontFamily(f.font);
+  FONT_REGISTRY.set(f.fontFamily, f);
+  f.fontFamily = encodeFontFamily(f.fontFamily);
   return f;
 }
 

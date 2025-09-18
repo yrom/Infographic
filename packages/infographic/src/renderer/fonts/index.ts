@@ -1,4 +1,4 @@
-export { getFontURLs, getWoff2BaseURL, loadFont } from './loader';
+export { getFontURLs, getWoff2BaseURL, loadFont,loadFonts } from './loader';
 export {
   DEFAULT_FONT,
   getFont,

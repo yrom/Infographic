@@ -1,5 +1,5 @@
 import { join } from '../../utils';
-import { getFont } from './registration';
+import { getFont, getFonts } from './registration';
 import { normalizeFontWeightName } from './utils';
 
 export function getFontURLs(font: string): string[] {
@@ -56,4 +56,9 @@ export function loadFont(svg: SVGSVGElement, font: string) {
   if (target instanceof HTMLHeadElement) {
     links.forEach((link) => target.appendChild(link));
   }
+}
+
+export function loadFonts(svg: SVGSVGElement) {
+  const fonts = getFonts();
+  fonts.forEach((font) => loadFont(svg, font.fontFamily));
 }
