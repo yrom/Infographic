@@ -11,7 +11,6 @@
       "@@/*": ["./*"]
     }
   },
-  "include": ["./**/*", "../src/global.d.ts"],
+  "include": ["./**/*"],
   "exclude": ["node_modules"],
-  "references": [{ "path": ".." }]
 }

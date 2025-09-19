@@ -9,3 +9,4 @@ export {
   getElementBounds,
   getElementsBounds,
 } from './utils';
+import './global';

@@ -28,11 +28,10 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "run-s build:source build:declaration",
-    "build:declaration": "cp src/global.d.ts dist/",
-    "build:source": "tsc -p tsconfig.json --outDir dist",
+    "build": "tsc -p tsconfig.json --outDir dist",
+    "build:test": "tsc --noEmit -p __tests__",
     "ci": "run-s test build lint",
-    "lint": "eslint . --ext .ts,.tsx && tsc --noEmit -p __tests__",
+    "lint": "eslint . --ext .ts,.tsx && npm run build:test",
     "test": "vitest --run --coverage",
     "watch": "tsc -w"
   },
