@@ -1,18 +1,22 @@
 /** @jsxImportSource @antv/infographic-jsx */
 import type { ComponentType, JSXElement } from '@antv/infographic-jsx';
-import { getElementBounds, Group, Path } from '@antv/infographic-jsx';
+import { getElementBounds, Group } from '@antv/infographic-jsx';
 import { BtnAdd, BtnRemove, BtnsGroup, ItemsGroup } from '../components';
+import { BaseItemProps } from '../items';
 import { FlexLayout } from '../layouts';
 import { registerStructure } from './registry';
 import type { BaseStructureProps } from './types';
 
 export interface CompareMirrorProps extends BaseStructureProps {
+  /** 同侧数据项上下间隔 */
   gap?: number;
-  centerGap?: number;
+  /** 左右两侧间隔 */
+  spacing?: number;
+  RootItem?: ComponentType<Omit<BaseItemProps, 'themeColors'>>;
 }
 
 export const CompareMirror: ComponentType<CompareMirrorProps> = (props) => {
-  const { Title, Item, data, gap = 20, centerGap = 60 } = props;
+  const { Title, Item, data, gap = 20, spacing = 60 } = props;
   const { title, desc, items = [] } = data;
 
   const titleContent = Title ? <Title title={title} desc={desc} /> : null;
@@ -29,8 +33,7 @@ export const CompareMirror: ComponentType<CompareMirrorProps> = (props) => {
   const rightItems = items.filter((_, index) => index % 2 === 1);
 
   const leftX = 0;
-  const rightX = itemBounds.width + centerGap;
-  const centerX = leftX + itemBounds.width + centerGap / 2;
+  const rightX = itemBounds.width + spacing;
 
   leftItems.forEach((item, index) => {
     const itemY = index * (itemBounds.height + gap);
@@ -164,13 +167,6 @@ export const CompareMirror: ComponentType<CompareMirrorProps> = (props) => {
     }
   }
 
-  const maxItems = Math.max(leftItems.length, rightItems.length);
-  const totalHeight =
-    items.length > 0
-      ? maxItems * (itemBounds.height + gap) - gap
-      : itemBounds.height;
-  const dividerPath = `M ${centerX} ${-gap / 2} L ${centerX} ${totalHeight + gap / 2}`;
-
   return (
     <FlexLayout
       id="infographic-container"
@@ -180,14 +176,6 @@ export const CompareMirror: ComponentType<CompareMirrorProps> = (props) => {
     >
       {titleContent}
       <Group>
-        <Path
-          d={dividerPath}
-          stroke="#ddd"
-          strokeWidth={2}
-          strokeDasharray="5,5"
-          width={1}
-          height={totalHeight}
-        />
         <ItemsGroup>{itemElements}</ItemsGroup>
         <BtnsGroup>{btnElements}</BtnsGroup>
       </Group>
