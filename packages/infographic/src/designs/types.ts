@@ -1,13 +1,9 @@
 import type { ComponentType } from '@antv/infographic-jsx';
-import type { Item, ItemOptions } from '../items';
-import type { Structure, StructureOptions } from '../structures';
+import type { Item, ItemOptions } from './items';
+import type { Structure, StructureOptions } from './structures';
+import { TitleOptions } from './title';
 
-export interface TitleOptions {
-  type: string;
-  [key: string]: any;
-}
-
-export interface TemplateOptions {
+export interface DesignOptions {
   /** 结构 */
   structure?: string | WithType<StructureOptions>;
   /** 标题 */
@@ -18,7 +14,7 @@ export interface TemplateOptions {
   items?: (string | WithType<ItemOptions>)[];
 }
 
-export interface ParsedTemplateOptions {
+export interface ParsedDesignsOptions {
   structure: WithProps<Structure>;
   title: {
     component: ComponentType<any> | null;

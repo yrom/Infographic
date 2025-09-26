@@ -1,4 +1,4 @@
-import { TemplateOptions } from './types';
+import type { TemplateOptions } from './types';
 
 const TEMPLATE_REGISTRY = new Map<string, TemplateOptions>();
 

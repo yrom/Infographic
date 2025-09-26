@@ -1,12 +1,13 @@
 import {
+  DesignOptions,
   getItem,
   getStructure,
   getTemplate,
-  ParsedTemplateOptions,
-  TemplateOptions,
+  ParsedDesignsOptions,
   Title,
 } from '../designs';
 import { getPaletteColor } from '../renderer';
+import type { TemplateOptions } from '../templates';
 import { generateThemeColors, getTheme, type ThemeConfig } from '../themes';
 import { getItemKeyFromIndexes, isDarkColor, parsePadding } from '../utils';
 import type { InfographicOptions, ParsedInfographicOptions } from './types';
@@ -30,16 +31,19 @@ export function parseOptions(
       : container;
   if (!parsedContainer) throw new Error('Container not found');
 
-  const parsedTemplate: TemplateOptions = template
+  const templateOptions: TemplateOptions = template
     ? getTemplate(template) || {}
     : {};
 
+  const { design: templateDesign, ...restTemplateOptions } = templateOptions;
+
   return {
+    ...restTemplateOptions,
     ...restOptions,
     container: parsedContainer as HTMLElement,
     padding: parsePadding(padding),
     template,
-    design: parseDesign({ ...parsedTemplate, ...design }, options),
+    design: parseDesign({ ...templateDesign, ...design }, options),
     theme,
     themeConfig: parseTheme(theme, themeConfig),
   };
@@ -52,9 +56,9 @@ function normalizeWithType<T extends { type: string }>(obj: string | T): T {
 }
 
 function parseDesign(
-  config: InfographicOptions['design'],
+  config: DesignOptions,
   options: InfographicOptions,
-): ParsedTemplateOptions {
+): ParsedDesignsOptions {
   const { structure, title, item, items } = config || {};
   const defaultItem = parseDesignItem(item || items?.[0], options);
   return {
@@ -68,8 +72,8 @@ function parseDesign(
 }
 
 function parseDesignStructure(
-  config: TemplateOptions['structure'],
-): ParsedTemplateOptions['structure'] {
+  config: DesignOptions['structure'],
+): ParsedDesignsOptions['structure'] {
   if (!config) throw new Error('Structure is required in design or template');
   const { type, ...userProps } = normalizeWithType(config);
   const structure = getStructure(type);
@@ -79,9 +83,9 @@ function parseDesignStructure(
 }
 
 function parseDesignTitle(
-  config: TemplateOptions['title'],
+  config: DesignOptions['title'],
   options: InfographicOptions,
-): ParsedTemplateOptions['title'] {
+): ParsedDesignsOptions['title'] {
   if (!config) return { component: null };
   const { type, ...userProps } = normalizeWithType(config);
 
@@ -96,9 +100,9 @@ function parseDesignTitle(
 }
 
 function parseDesignItem(
-  config: TemplateOptions['item'],
+  config: DesignOptions['item'],
   options: InfographicOptions,
-): ParsedTemplateOptions['item'] {
+): ParsedDesignsOptions['item'] {
   if (!config) throw new Error('Item is required in design or template');
   const { type, ...userProps } = normalizeWithType(config);
   const item = getItem(type);
