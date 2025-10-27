@@ -20,4 +20,5 @@ export * from './sequence-roadmap-vertical';
 export * from './sequence-snake-steps';
 export * from './sequence-steps';
 export * from './sequence-timeline';
+export * from './sequence-zigzag-steps';
 export type * from './types';

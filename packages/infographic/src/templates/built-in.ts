@@ -514,6 +514,34 @@ const BUILT_IN_TEMPLATES: Record<string, TemplateOptions> = {
       items: [{ type: 'simple-illus' }],
     },
   },
+  'sequence-zigzag-steps-underline-text': {
+    design: {
+      title: 'default',
+      structure: { type: 'sequence-zigzag-steps' },
+      items: [{ type: 'underline-text' }],
+    },
+  },
+  'sequence-horizontal-zigzag-underline-text': {
+    design: {
+      title: 'default',
+      structure: { type: 'sequence-horizontal-zigzag' },
+      items: [{ type: 'underline-text' }],
+    },
+  },
+  'sequence-roadmap-vertical-underline-text': {
+    design: {
+      title: 'default',
+      structure: { type: 'sequence-roadmap-vertical' },
+      items: [{ type: 'underline-text' }],
+    },
+  },
+  'sequence-snake-steps-underline-text': {
+    design: {
+      title: 'default',
+      structure: { type: 'sequence-snake-steps' },
+      items: [{ type: 'underline-text' }],
+    },
+  },
 };
 
 Object.entries(BUILT_IN_TEMPLATES).forEach(([name, options]) => {

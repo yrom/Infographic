@@ -25,4 +25,5 @@ export * from './SimpleIllusItem';
 export * from './SimpleItem';
 export * from './SimpleVerticalArrow';
 export type * from './types';
+export * from './UnderlineText';
 export * from './VerticalIconArrow';
