@@ -1,11 +1,5 @@
-# 示例
+# 内置模版
 
-> Coming soon...
+import Gallery from '@site/src/components/Gallery';
 
-import Infographic from '@site/src/components/Infographic';
-
-<Infographic options={{
-    template: 'sequence-horizontal-zigzag-simple'
-  }}
-data="list"
-/>
+<Gallery />
