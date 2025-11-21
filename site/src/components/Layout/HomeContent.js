@@ -69,31 +69,22 @@ function FullBleed({children}) {
   );
 }
 
-// 示例动态数据
-const recentPosts = [
+const features = [
   {
-    title: '欢迎使用 AntV Infographic',
-    icon: 'blog',
-    date: '2024-01-01',
-    url: '/blog/welcome',
+    title: '信息图语法',
+    detail: '基于信息图视觉特点设计信息图语法，覆盖布局、元素、主题等内容',
   },
   {
-    title: 'AI 生成信息图功能发布',
-    icon: 'blog',
-    date: '2024-01-15',
-    url: '/blog/ai-feature',
+    title: 'JSX 定制开发',
+    detail: '基于 JSX 作为设计资产开发语言，直观、可复用、开发灵活',
   },
   {
-    title: '新增多种主题模板',
-    icon: 'blog',
-    date: '2024-02-01',
-    url: '/blog/new-themes',
+    title: '风格化渲染',
+    detail: '一套模版多种视觉效果，支持手绘、纹理、渐变等风格',
   },
   {
-    title: '性能优化更新',
-    icon: 'blog',
-    date: '2024-02-15',
-    url: '/blog/performance',
+    title: '可视化编辑',
+    detail: '支持添加、删除数据项；添加图形、文本标注，所见即所得',
   },
 ];
 
@@ -101,44 +92,51 @@ export function HomeContent() {
   return (
     <>
       <div className="ps-0">
-        <div className="mx-5 mt-12 lg:mt-24 mb-20 lg:mb-32 flex flex-col justify-center">
-          <Logo
-            className={cn(
-              'mt-4 mb-3 text-brand dark:text-brand-dark w-24 lg:w-28 self-center text-sm me-0 flex origin-center transition-all ease-in-out'
-            )}
-          />
-          <h1 className="text-5xl font-display lg:text-6xl self-center flex font-semibold leading-snug text-primary dark:text-primary-dark">
-            AntV Infographic
-          </h1>
-          <p className="text-4xl font-display max-w-lg md:max-w-full py-1 text-center text-secondary dark:text-primary-dark leading-snug self-center">
-            新一代信息图可视化引擎
-          </p>
-          <div className="mt-5 self-center flex gap-2 w-full sm:w-auto flex-col sm:flex-row">
-            <ButtonLink
-              href={'/learn'}
-              type="primary"
-              size="lg"
-              className="w-full sm:w-auto justify-center"
-              label="快速开始">
-              快速开始
-            </ButtonLink>
-            <ButtonLink
-              href={'/reference'}
-              type="secondary"
-              size="lg"
-              className="w-full sm:w-auto justify-center"
-              label="参考文档">
-              参考文档
-            </ButtonLink>
-            <ExternalLink
-              href="https://github.com/antvis/infographic"
-              aria-label="AntV Infographic on GitHub"
-              className="inline-flex items-center justify-center gap-2 text-primary dark:text-primary-dark shadow-secondary-button-stroke dark:shadow-secondary-button-stroke-dark hover:bg-gray-40/5 active:bg-gray-40/10 hover:dark:bg-gray-60/5 active:dark:bg-gray-60/10 text-lg px-4 py-3 rounded-full min-w-[52px] focus:outline-none focus-visible:outline focus-visible:outline-link focus:outline-offset-2 focus-visible:dark:focus:outline-link-dark">
-              <IconGitHub className="w-6 h-6" />
-              <span className="font-semibold">GitHub</span>
-            </ExternalLink>
+        {/* Hero section with pink gradient background */}
+        <div className="relative isolate overflow-hidden">
+          {/* Background decorations - matching AI page */}
+          <div className="pointer-events-none absolute -left-32 -top-40 h-96 w-96 rounded-full bg-gradient-to-br from-link/20 via-link/5 to-transparent blur-3xl" />
+          <div className="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-gradient-to-br from-purple-40/15 via-transparent to-link/5 blur-3xl" />
+
+          <div className="mx-5 mt-12 lg:mt-24 mb-20 lg:mb-32 flex flex-col justify-center relative z-10">
+            <Logo
+              className={cn(
+                'mt-4 mb-3 text-brand dark:text-brand-dark w-24 lg:w-28 self-center text-sm me-0 flex origin-center transition-all ease-in-out'
+              )}
+            />
+            <h1 className="text-5xl font-display lg:text-6xl self-center flex font-semibold leading-snug text-primary dark:text-primary-dark">
+              AntV Infographic
+            </h1>
+            <p className="text-4xl font-display max-w-lg md:max-w-full py-1 text-center text-secondary dark:text-primary-dark leading-snug self-center">
+              新一代信息图可视化引擎
+            </p>
+            <div className="mt-5 self-center flex gap-2 w-full sm:w-auto flex-col sm:flex-row">
+              <ButtonLink
+                href={'/learn'}
+                type="primary"
+                size="lg"
+                className="w-full sm:w-auto justify-center"
+                label="快速开始">
+                快速开始
+              </ButtonLink>
+              <ButtonLink
+                href={'/reference'}
+                type="secondary"
+                size="lg"
+                className="w-full sm:w-auto justify-center"
+                label="参考文档">
+                参考文档
+              </ButtonLink>
+              <ExternalLink
+                href="https://github.com/antvis/infographic"
+                aria-label="AntV Infographic on GitHub"
+                className="inline-flex items-center justify-center gap-2 text-primary dark:text-primary-dark shadow-secondary-button-stroke dark:shadow-secondary-button-stroke-dark hover:bg-gray-40/5 active:bg-gray-40/10 hover:dark:bg-gray-60/5 active:dark:bg-gray-60/10 text-lg px-4 py-3 rounded-full min-w-[52px] focus:outline-none focus-visible:outline focus-visible:outline-link focus:outline-offset-2 focus-visible:dark:focus:outline-link-dark">
+                <IconGitHub className="w-6 h-6" />
+                <span className="font-semibold">GitHub</span>
+              </ExternalLink>
+            </div>
+            <Gallery />
           </div>
-          <Gallery />
         </div>
 
         <Section background="left-card">
@@ -216,7 +214,7 @@ export function HomeContent() {
           <Center>
             <Para>支持自定义主题配置，灵活扩展样式系统</Para>
             <div className="flex justify-start w-full lg:justify-center">
-              <CTA color="gray" icon="code" href="/learn/core-concepts/theme">
+              <CTA color="gray" icon="code" href="/learn/theme">
                 查看主题配置文档
               </CTA>
             </div>
@@ -253,16 +251,38 @@ export function HomeContent() {
               <div className="w-full lg:w-6/12 max-w-3xl flex flex-col items-start justify-start lg:ps-5 lg:pe-10">
                 <Header>持续演进，拥抱未来</Header>
                 <Para>
-                  AntV Infographic 基于 AntV 可视化生态的深厚积累，
-                  承载了大量业务实践经验。我们致力于将前沿的信息图技术
-                  和最佳实践带给每一位开发者。
+                  我们的目标是“让信息图成为 AI 时代的视觉语言基础设施”
                 </Para>
-                <div className="order-last pt-5">
-                  <Para>
-                    团队持续探索信息图领域的创新技术，包括 AI 辅助设计、
-                    智能布局优化等方向。只有经过充分验证的功能才会被引入，
-                    确保为用户提供稳定可靠的体验。
-                  </Para>
+                <div className="order-last pt-5 w-full">
+                  <div className="flex flex-row justify-between items-center gap-3 mt-5 lg:-mt-2 w-full">
+                    <p className="uppercase tracking-wide font-bold text-sm text-tertiary dark:text-tertiary-dark flex flex-row gap-2 items-center">
+                      <IconChevron />
+                      特性
+                    </p>
+                    <p className="uppercase tracking-wide font-bold text-sm text-tertiary dark:text-tertiary-dark flex flex-row gap-2 items-center">
+                      未来计划
+                      <IconChevron className="-rotate-90" />
+                    </p>
+                  </div>
+                  <div className="flex-col sm:flex-row flex-wrap flex gap-5 text-start my-5">
+                    <div className="flex-1 min-w-[40%] text-start">
+                      <BlogCard {...features[0]} />
+                    </div>
+                    <div className="flex-1 min-w-[40%] text-start">
+                      <BlogCard {...features[1]} />
+                    </div>
+                    <div className="flex-1 min-w-[40%] text-start">
+                      <BlogCard {...features[2]} />
+                    </div>
+                    <div className="hidden sm:flex-1 sm:inline">
+                      <BlogCard {...features[3]} />
+                    </div>
+                  </div>
+                  <div className="flex lg:hidden justify-start w-full">
+                    <CTA color="gray" icon="news" href="">
+                      了解更多动态
+                    </CTA>
+                  </div>
                   {/* <div className="hidden lg:flex justify-start w-full">
                     <CTA color="gray" icon="news" href="">
                       了解更多动态
@@ -270,30 +290,13 @@ export function HomeContent() {
                   </div> */}
                 </div>
               </div>
-              <div className="w-full lg:w-6/12">
-                <p className="uppercase tracking-wide font-bold text-sm text-tertiary dark:text-tertiary-dark flex flex-row gap-2 items-center mt-5 lg:-mt-2 w-full">
-                  <IconChevron />
-                  最新动态
-                </p>
-                <div className="flex-col sm:flex-row flex-wrap flex gap-5 text-start my-5">
-                  <div className="flex-1 min-w-[40%] text-start">
-                    <BlogCard {...recentPosts[0]} />
-                  </div>
-                  <div className="flex-1 min-w-[40%] text-start">
-                    <BlogCard {...recentPosts[1]} />
-                  </div>
-                  <div className="flex-1 min-w-[40%] text-start">
-                    <BlogCard {...recentPosts[2]} />
-                  </div>
-                  <div className="hidden sm:flex-1 sm:inline">
-                    <BlogCard {...recentPosts[3]} />
-                  </div>
-                </div>
-                <div className="flex lg:hidden justify-start w-full">
-                  <CTA color="gray" icon="news" href="">
-                    了解更多动态
-                  </CTA>
-                </div>
+              <div className="w-full lg:w-6/12 flex flex-col items-center lg:items-end">
+                <img
+                  src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*15OrQo7ftkAAAAAASxAAAAgAemJ7AQ/original"
+                  alt="AntV Infographic 团队技术探索示意"
+                  className="w-full h-auto rounded-2xl lg:max-h-[480px] object-contain"
+                  draggable={false}
+                />
               </div>
             </div>
           </div>

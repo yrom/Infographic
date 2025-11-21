@@ -31,7 +31,6 @@ export const Seo = withRouter(
     router,
     children,
     isHomePage,
-    searchOrder,
   }: SeoProps & {router: Router}) => {
     const siteDomain = getDomain(siteConfig.languageCode);
     const canonicalUrl = `https://${siteDomain}${
@@ -108,9 +107,6 @@ export const Seo = withRouter(
           name="google-site-verification"
           content="sIlAGs48RulR4DdP95YSWNKZIEtCqQmRjzn-Zq-CcD0"
         />
-        {searchOrder != null && (
-          <meta name="algolia-search-order" content={'' + searchOrder} />
-        )}
         <link
           rel="preload"
           href="https://react.dev/fonts/Source-Code-Pro-Regular.woff2"
