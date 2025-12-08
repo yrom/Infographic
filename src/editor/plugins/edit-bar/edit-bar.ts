@@ -19,6 +19,7 @@ import type {
 import { getElementViewportBounds, getScreenCTM } from '../../utils';
 import { Plugin } from '../base';
 import {
+  ElementAlign,
   FontAlign,
   FontColor,
   FontFamily,
@@ -67,6 +68,12 @@ export class EditBar extends Plugin implements IPlugin {
     }
     const container = this.getOrCreateEditBar();
     const items = this.getEditItems(next);
+
+    if (items.length === 0) {
+      hideContainer(container);
+      return;
+    }
+
     setContainerItems(container, items);
 
     this.placeEditBar(container, next);
@@ -185,9 +192,11 @@ export class EditBar extends Plugin implements IPlugin {
     const attrs = getCommonAttrs(
       selection.map((text) => getTextElementProps(text).attributes || {}),
     );
-    return [FontColor, FontSize, FontAlign, FontFamily].map((item) =>
+    const items = [FontColor, FontSize, FontAlign, FontFamily].map((item) =>
       item(selection, attrs, this.commander),
     );
+    const commonItems = this.getElementCollectionEditItems(selection);
+    return [...items, ...commonItems];
   }
 
   protected getIconEditItems(selection: Selection): EditItem[] {
@@ -205,12 +214,18 @@ export class EditBar extends Plugin implements IPlugin {
     return [];
   }
 
-  protected getGeometryCollectionEditItems(_selection: Selection): EditItem[] {
-    return [];
+  protected getGeometryCollectionEditItems(selection: Selection): EditItem[] {
+    const commonItems = this.getElementCollectionEditItems(selection);
+    return [...commonItems];
   }
 
-  protected getElementCollectionEditItems(_selection: Selection): EditItem[] {
-    return [];
+  protected getElementCollectionEditItems(selection: Selection): EditItem[] {
+    if (selection.length <= 1) return [];
+    return [
+      ElementAlign(selection, {}, this.commander, {
+        enableDistribution: selection.length > 2,
+      }),
+    ];
   }
 
   private placeEditBar(container: HTMLDivElement, selection: Selection) {
