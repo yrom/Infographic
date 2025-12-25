@@ -306,8 +306,8 @@ Once you have the final AntV Infographic Syntax, you can generate the complete i
 The Html template you can follow:
 
 ```html
-<div id="container></div>
-<script src="https://unpkg.com/@antv/infographic@latest/dist/infographic.min.js"></script>    
+<div id="container"></div>
+<script src="https://unpkg.com/@antv/infographic@latest/dist/infographic.min.js"></script>
 <script>
 // Resource Loader Script
 // Use the following resource loader script to handle icon and illustration loading:
@@ -403,7 +403,7 @@ AntVInfographic.registerResourceLoader(async (config) => {
     width: '100%',
     height: '100%',
   });
-  infographic.render({syntax});
+  infographic.render(`{syntax}`);
 </script>
 ```
 
