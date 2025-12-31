@@ -5,6 +5,7 @@ import { parseSyntax, type SyntaxError } from '../syntax';
 import type { Data, ItemDatum } from '../types';
 import { preloadResource } from '../resource/loader';
 import { exportToSVG } from '../exporter/svg';
+import { getTemplate } from '../templates';
 
 export interface SSRRenderOptions {
   /** Input: Antv Infographic Syntax string */
@@ -87,7 +88,10 @@ export async function renderToSVG(
   // 4. Create Infographic instance to parse options
   try {
     const { options: parsedOptions, errors: parseErrors, warnings: parseWarnings } = parseSyntax(options.input);
-    errors.push(...parseErrors);
+    if (parseErrors.length > 0) {
+      // Fast fail with errors
+      return { svg: '', errors: parseErrors, warnings: parseWarnings };
+    }
     warnings.push(...parseWarnings);
     if (!parsedOptions.data || !parsedOptions.data.items) {
       errors.push({
@@ -96,15 +100,45 @@ export async function renderToSVG(
         path: '',
         line: 0,
       } as SyntaxError);
-      return { svg: '', errors, warnings };
+    }
+    if (!parsedOptions.template) {
+      errors.push({
+        code: 'bad_syntax',
+        message: 'No template specified',
+        path: '',
+        line: 0,
+      } as SyntaxError);
+    } else {
+      const template = getTemplate(parsedOptions.template);
+      if (!template) {
+        errors.push({
+          code: 'bad_syntax',
+          message: `No such template: ${parsedOptions.template}`,
+          path: '',
+          line: 0,
+        } as SyntaxError);
+      }
+    }
+    if (parsedOptions.design && !parsedOptions.design.structure) {
+      errors.push({
+        code: 'bad_syntax',
+        message: 'Invalid design structure',
+        path: '',
+        line: 0,
+      } as SyntaxError);
+    }
+    if (errors.length > 0) {
+      // Fast fail with errors
+      return { svg: '', errors: errors, warnings: warnings };
     }
     // 5. Preload resources on rendering
-    await preloadResources(parsedOptions.data || {});
+    await preloadResources(parsedOptions.data!);
     const infographic = new Infographic({ ...ssrOptions, ...parsedOptions });
 
     // Collect errors and warnings from event emitters
     infographic.on('error', (error: SyntaxError) => {
       errors.push(error);
+      throw error;
     });
     infographic.on('warning', (warning: SyntaxError) => {
       warnings.push(warning);
@@ -125,12 +159,14 @@ export async function renderToSVG(
     const svg = await svgResultPromise;
     return { svg, errors, warnings };
   } catch (error) {
-    errors.push({
-      code: 'render_error',
-      message: error instanceof Error ? error.message : 'Unknown render error',
-      path: '',
-      line: 0,
-    } as any);
+    if (!(error instanceof SyntaxError)) {
+      errors.push({
+        code: 'render_error',
+        message: error instanceof Error ? error.message : 'Unknown render error',
+        path: '',
+        line: 0,
+      } as any);
+    }
     return { svg: '', errors, warnings };
   }
 }
