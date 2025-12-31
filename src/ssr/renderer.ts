@@ -127,7 +127,7 @@ export async function renderToSVG(
       const svgo = await import('svgo');
       const optimized = svgo.optimize(svg);
       return { svg: optimized.data, errors, warnings };
-    } catch (e) {
+    } catch (_) {
       // ignore svgo error
       return { svg, errors, warnings };
     }
