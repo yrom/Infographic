@@ -30,7 +30,7 @@ const exampleFiles = readdirSync(EXAMPLES_DIR)
 console.log(`Found ${exampleFiles.length} example files\n`);
 
 let completed = 0;
-let fails = [];
+const fails = [];
 // Process each example
 for (const file of exampleFiles) {
   const inputPath = join(EXAMPLES_DIR, file);

@@ -6,10 +6,12 @@ import { renderToSVG } from '@antv/infographic/ssr';
 import type { SyntaxError } from '@antv/infographic';
 import { registerResourceLoader } from '@antv/infographic';
 import { resourceLoader } from './ResourceLoader.js';
+import { optimize as svgoOptimize } from 'svgo';
 interface CLIArgs {
   inputFile: string;
   outputFile: string | null;
   help: boolean;
+  disableSvgo: boolean;
 }
 
 /**
@@ -20,17 +22,18 @@ function parseArgs(): CLIArgs {
 
   // Check for help flag
   if (args.includes('-h') || args.includes('--help')) {
-    return { inputFile: '', outputFile: null, help: true };
+    return { inputFile: '', outputFile: null, help: true, disableSvgo: false };
   }
 
   // Expect: infographic <input-file> -o <output-file>
   // or: infographic <input-file> --output <output-file>
   if (args.length < 1) {
-    return { inputFile: '', outputFile: null, help: true };
+    return { inputFile: '', outputFile: null, help: true, disableSvgo: false };
   }
 
   const inputFile = args[0];
   let outputFile: string | null = null;
+  let disableSvgo = false;
 
   // Find output flag
   const oIndex = args.indexOf('-o');
@@ -42,7 +45,12 @@ function parseArgs(): CLIArgs {
     outputFile = args[outputIndex + 1];
   }
 
-  return { inputFile, outputFile, help: false };
+  // Check for disable-svgo flag
+  if (args.includes('--no-svgo')) {
+    disableSvgo = true;
+  }
+
+  return { inputFile, outputFile, help: false, disableSvgo };
 }
 
 /**
@@ -57,6 +65,7 @@ Usage:
 
 Options:
   -o, --output <file>    Output SVG file path (if not specified, prints to stdout)
+  --no-svgo              Disable SVGO optimization
   -h, --help             Show this help message
 
 Examples:
@@ -89,7 +98,7 @@ For more information: https://github.com/antvis/Infographic
  * Main CLI entry point
  */
 async function main(): Promise<void> {
-  const { inputFile, outputFile, help } = parseArgs();
+  const { inputFile, outputFile, help, disableSvgo } = parseArgs();
 
   // Show help
   if (help || !inputFile) {
@@ -127,15 +136,24 @@ async function main(): Promise<void> {
       });
       process.exit(1);
     }
+    let svgString = result.svg;
+    if (!disableSvgo) {
+      try {
+        const optimized = svgoOptimize(svgString);
+        svgString = optimized.data;
+      } catch (_) {
+        // ignore svgo error
+      }
+    }
 
     // Write output
     if (outputFile) {
       const outputPath = resolve(process.cwd(), outputFile);
-      writeFileSync(outputPath, result.svg, 'utf-8');
+      writeFileSync(outputPath, svgString, 'utf-8');
       console.log(`Successfully rendered to ${outputFile}`);
     } else {
       // Output to stdout
-      process.stdout.write(result.svg);
+      process.stdout.write(svgString);
     }
   } catch (error) {
     if (error instanceof Error) {

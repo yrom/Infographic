@@ -1,4 +1,4 @@
-infographic sequence-horizontal-zigzag-simple-illus
+infographic sequence-timeline-rounded-rect-node
 data
   title Internet Technology Evolution
   desc Key milestones from Web 1.0 to AI era

@@ -114,7 +114,7 @@ export async function renderToSVG(
         try {
           // 6. Export SVG after resources are preloaded
           const svg = await exportToSVG(node, { embedResources: true });
-          const str = new XMLSerializer().serializeToString(svg);
+          const str = svg.outerHTML;
           resolve(str);
         } catch (e) {
           reject(e);
@@ -123,14 +123,7 @@ export async function renderToSVG(
     });
     infographic.render();
     const svg = await svgResultPromise;
-    try {
-      const svgo = await import('svgo');
-      const optimized = svgo.optimize(svg);
-      return { svg: optimized.data, errors, warnings };
-    } catch (_) {
-      // ignore svgo error
-      return { svg, errors, warnings };
-    }
+    return { svg, errors, warnings };
   } catch (error) {
     errors.push({
       code: 'render_error',
