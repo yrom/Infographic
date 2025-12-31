@@ -34,7 +34,6 @@ data
     - label Step 3
       desc Complete`,
     });
-    console.log(result.svg);
     expect(result.errors).toHaveLength(0);
     expect(result.svg).toContain('<svg');
     expect(result.svg).toContain('Step 1</span>');
