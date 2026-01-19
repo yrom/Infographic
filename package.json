@@ -1,6 +1,6 @@
 {
   "name": "@antv/infographic",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "An Infographic Generation and Rendering Framework, bring words to life!",
   "keywords": [
     "antv",
@@ -50,7 +50,7 @@
   "scripts": {
     "build": "run-s clean build:esm build:cjs build:umd size",
     "build:cjs": "tsc --module commonjs --outDir lib",
-    "build:esm": "tsc --module ESNext --outDir esm",
+    "build:esm": "tsc --module ESNext --outDir esm && tsc-alias -p tsconfig.json --outDir esm && node -e \"require('fs').writeFileSync('esm/package.json', JSON.stringify({ type: 'module' }))\"",
     "build:site": "npm --prefix site run build:static",
     "build:umd": "vite build",
     "build:watch": "tsc -p tsconfig.json --watch",
@@ -99,7 +99,6 @@
   "dependencies": {
     "@antv/hierarchy": "^0.7.0",
     "@antv/layout": "^2.0.0-beta.0",
-    "css": "^3.0.0",
     "culori": "^4.0.2",
     "d3": "^7.9.0",
     "eventemitter3": "^5.0.1",
@@ -107,6 +106,7 @@
     "linkedom": "^0.18.12",
     "lodash-es": "^4.17.21",
     "measury": "^0.1.5",
+    "postcss": "^8.5.6",
     "roughjs": "^4.6.6",
     "round-polygon": "^0.6.7",
     "tinycolor2": "^1.6.0"
@@ -119,7 +119,6 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
     "@size-limit/file": "^11.2.0",
-    "@types/css": "^0.0.38",
     "@types/culori": "^4.0.1",
     "@types/d3": "^7.4.3",
     "@types/jsdom": "^21.1.7",
@@ -144,6 +143,7 @@
     "rollup": "^4.53.2",
     "rollup-plugin-visualizer": "^6.0.5",
     "size-limit": "^11.2.0",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.43.0",
     "vite": "^7.1.5",
